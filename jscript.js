@@ -16,12 +16,12 @@ function definicjeGlobalne(){
 }
 function definicjaKlas(){
   //KlasyGracza
-  window.Warrior = {class: 'Wojownik',defaulthp: 100,hp: 100,sila: 8,obrona: 6,int: 1,szczescie: 2,img: '/PNG/Warrior.PNG',xp: 0,lvl: 1,wolne: 7, spell1: 'Amok', spell2: 'Blok', gold: 0}
-  window.MageIce = {class: 'Mag Lodu',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 8,szczescie: 2,img: '/PNG/MageIce.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Iceball', spell2: 'DODAJTO', gold: 0}
-  window.MageFire = {class: 'Mag Ognia',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 9,szczescie: 2,img: '/PNG/MageFire.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Fireball', spell2: 'DODAJTO', gold: 0}
-  window.MageLightning = {class: 'Mag Blyskawic',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 6,szczescie: 2,img: '/PNG/MageLightning.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Storm', spell2: 'DODAJTO', gold: 0}
-  window.Archer = {class: 'Lucznik',defaulthp: 70,hp: 70,sila: 9,obrona: 3,int: 2,szczescie: 5,img: '/PNG/Archer.PNG',xp: 0,lvl: 1,wolne: 4, spell1: 'Poison Arrow', spell2: 'Fire Arrow', gold: 0}
-  window.BladeDancer = {class: 'Tancerz Ostrzy',defaulthp: 80,hp: 80,sila: 10,obrona: 2,int: 2,szczescie: 6,img: '/PNG/BladeDancer.PNG',xp: 0,lvl: 1,wolne: 3, spell1: 'Double Hit', spell2: 'Triple Hit', gold: 0}
+  window.Warrior = {class: 'Wojownik',defaulthp: 100,hp: 100,sila: 8,obrona: 6,int: 1,szczescie: 2,img: 'PNG/Warrior.PNG',xp: 0,lvl: 1,wolne: 7, spell1: 'Amok', spell2: 'Blok', gold: 0}
+  window.MageIce = {class: 'Mag Lodu',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 8,szczescie: 2,img: 'PNG/MageIce.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Iceball', spell2: 'DODAJTO', gold: 0}
+  window.MageFire = {class: 'Mag Ognia',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 9,szczescie: 2,img: 'PNG/MageFire.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Fireball', spell2: 'DODAJTO', gold: 0}
+  window.MageLightning = {class: 'Mag Blyskawic',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 6,szczescie: 2,img: 'PNG/MageLightning.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Storm', spell2: 'DODAJTO', gold: 0}
+  window.Archer = {class: 'Lucznik',defaulthp: 70,hp: 70,sila: 9,obrona: 3,int: 2,szczescie: 5,img: 'PNG/Archer.PNG',xp: 0,lvl: 1,wolne: 4, spell1: 'Poison Arrow', spell2: 'Fire Arrow', gold: 0}
+  window.BladeDancer = {class: 'Tancerz Ostrzy',defaulthp: 80,hp: 80,sila: 10,obrona: 2,int: 2,szczescie: 6,img: 'PNG/BladeDancer.PNG',xp: 0,lvl: 1,wolne: 3, spell1: 'Double Hit', spell2: 'Triple Hit', gold: 0}
 }
 function start(){
   definicjaKlas();

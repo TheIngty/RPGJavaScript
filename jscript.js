@@ -203,35 +203,35 @@ function updateStatDisplay(){
   //Aktualizuje wyswietlone statystyki przy wyborze postaci
   if(klasaWybrana==false){
     profilImg.setAttribute('src',SelectedClass.img);
-    profilClass.innerHTML = 'Klasa: ' + SelectedClass.class;
-    profilHp.innerHTML = 'HP: ' + SelectedClass.hp;
-    profilUm1.innerHTML = 'Umiejetnosc 1: ' + SelectedClass.spell1;
-    profilUm2.innerHTML = 'Umiejetnosc 2: ' + SelectedClass.spell2;
-    profilSila.innerHTML = 'Sila: ' + SelectedClass.sila;
-    profilObrona.innerHTML = 'Obrona: ' + SelectedClass.obrona;
-    profilInt.innerHTML = 'Int: ' + SelectedClass.int;
-    profilSzczescie.innerHTML = 'Szczescie: ' + SelectedClass.szczescie;
-    profilWolne.innerHTML = 'Wolne: ' + SelectedClass.wolne;
+    profilClass.innerHTML = '<b>Klasa: </b>' + SelectedClass.class;
+    profilHp.innerHTML = '<b>HP: </b>' + SelectedClass.hp;
+    profilUm1.innerHTML = '<b>Umiejetnosc 1: </b>' + SelectedClass.spell1;
+    profilUm2.innerHTML = '<b>Umiejetnosc 2: </b>' + SelectedClass.spell2;
+    profilSila.innerHTML = '<b>Sila: </b>' + SelectedClass.sila;
+    profilObrona.innerHTML = '<b>Obrona: </b>' + SelectedClass.obrona;
+    profilInt.innerHTML = '<b>Int: </b>' + SelectedClass.int;
+    profilSzczescie.innerHTML = '<b>Szczescie: </b>' + SelectedClass.szczescie;
+    profilWolne.innerHTML = '<b>Wolne: </b>' + SelectedClass.wolne;
   }
   else{
     //Aktualizuje wyswietlone statystyki po wyborze postaci
     profilImg.setAttribute('src',SelectedClass.img);
-    profilClass.innerHTML = 'Klasa: ' + SelectedClass.class;
-    profilHp.innerHTML = 'HP: ' + SelectedClass.hp;
-    profilSila.innerHTML = 'Sila: ' + SelectedClass.sila;
-    profilObrona.innerHTML = 'Obrona: ' + SelectedClass.obrona;
-    profilInt.innerHTML = 'Int: ' + SelectedClass.int;
-    profilSzczescie.innerHTML = 'Szczescie: ' + SelectedClass.szczescie;
-    profilLvl.innerHTML = 'Lvl: ' + SelectedClass.lvl;
-    profilXp.innerHTML = 'XP: ' + SelectedClass.xp;
-    profilGold.innerHTML = 'Gold: ' + SelectedClass.gold;
+    profilClass.innerHTML = '<b>Klasa: </b>' + SelectedClass.class;
+    profilHp.innerHTML = '<b>HP: </b>' + SelectedClass.hp;
+    profilSila.innerHTML = '<b>Sila: </b>' + SelectedClass.sila;
+    profilObrona.innerHTML = '<b>Obrona: </b>' + SelectedClass.obrona;
+    profilInt.innerHTML = '<b>Int: </b>' + SelectedClass.int;
+    profilSzczescie.innerHTML = '<b>Szczescie: </b>' + SelectedClass.szczescie;
+    profilLvl.innerHTML = '<b>Lvl: </b>' + SelectedClass.lvl;
+    profilXp.innerHTML = '<b>XP: </b>' + SelectedClass.xp;
+    profilGold.innerHTML = '<b>Gold: </b>' + SelectedClass.gold;
     enemyImg.setAttribute('src',Enemy.img);
-    enemyClass.innerHTML = 'Klasa: ' + Enemy.class;
-    enemyHp.innerHTML = 'HP: ' + Enemy.hp;
-    enemySila.innerHTML = 'Sila: ' + Enemy.sila;
-    enemyObrona.innerHTML = 'Obrona: ' + Enemy.obrona;
-    enemyInt.innerHTML = 'Int: ' + Enemy.int;
-    enemySzczescie.innerHTML = 'Szczescie: ' + Enemy.szczescie;
+    enemyClass.innerHTML = '<b>Klasa: </b>' + Enemy.class;
+    enemyHp.innerHTML = '<b>HP: </b>' + Enemy.hp;
+    enemySila.innerHTML = '<b>Sila: </b>' + Enemy.sila;
+    enemyObrona.innerHTML = '<b>Obrona: </b>' + Enemy.obrona;
+    enemyInt.innerHTML = '<b>Int: </b>' + Enemy.int;
+    enemySzczescie.innerHTML = '<b>Szczescie: </b>' + Enemy.szczescie;
   }
 }
 function sklep(){

@@ -4,7 +4,7 @@ function definicjeGlobalne(){
   window.turyUmiejetnosci = 0;
   window.tempSelect = 0;
   window.klasy = Array(Warrior,MageFire,MageIce,MageLightning,Archer,BladeDancer);
-  window.SelectedClass = Warrior;
+  window.SelectedClass = None;
   window.randEnemy = 'Default';
   window.klasaWybrana = false;
   window.cdSpell1 = 0;
@@ -13,10 +13,12 @@ function definicjeGlobalne(){
   window.cdDot2 = 0;
   window.cdBuff1 = 0;
   window.cdBuff2 = 0;
+  window.lvlUpScreen = false;
 }
 function definicjaKlas(){
   //KlasyGracza
-  window.Warrior = {class: 'Wojownik',defaulthp: 100,hp: 100,sila: 8,obrona: 6,int: 1,szczescie: 2,img: 'PNG/Warrior.PNG',xp: 0,lvl: 1,wolne: 7, spell1: 'Amok', spell2: 'Blok', gold: 0}
+  window.None = {class: 'Brak',defaulthp: 100,hp: 100,sila: 0,obrona: 0,int: 0,szczescie: 0,img: 'PNG/Error.PNG',xp: 0,lvl: 1,wolne: 24, spell1: 'BRAK', spell2: 'BRAK', gold: 0}
+  window.Warrior = {class: 'Wojownik',defaulthp: 100,hp: 100,sila: 8,obrona: 6,int: 0,szczescie: 2,img: 'PNG/Warrior.PNG',xp: 0,lvl: 1,wolne: 8, spell1: 'Amok', spell2: 'Blok', gold: 0}
   window.MageIce = {class: 'Mag Lodu',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 8,szczescie: 2,img: 'PNG/MageIce.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Iceball', spell2: 'DODAJTO', gold: 0}
   window.MageFire = {class: 'Mag Ognia',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 9,szczescie: 2,img: 'PNG/MageFire.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Fireball', spell2: 'DODAJTO', gold: 0}
   window.MageLightning = {class: 'Mag Blyskawic',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 6,szczescie: 2,img: 'PNG/MageLightning.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Storm', spell2: 'DODAJTO', gold: 0}
@@ -26,7 +28,7 @@ function definicjaKlas(){
 function start(){
   definicjaKlas();
   definicjeGlobalne();
-  bodyTag.style.setProperty('background','#000');
+  bodyTag.style.setProperty('background-image','url("PNG/Bg.png")');
   bodyTag.style.setProperty('color','#fc0');
   bodyTag.style.setProperty('text-align','center');
   klasaWybrana = false;
@@ -107,6 +109,8 @@ function start(){
   zmienKlaseButton.innerHTML = '<img src="PNG/Change.png" width="30" height="30"></img>';
   zmienKlaseButton.setAttribute('onclick','zmianaKlasy()');
 
+  zmianaKlasy();
+
   window.rozpocznijGreButton = document.createElement('button');
   divGracz.appendChild(rozpocznijGreButton);
   rozpocznijGreButton.innerHTML = '<img src="PNG/Fist.png" width="30" height="30"></img>';
@@ -127,6 +131,7 @@ function generujWalke(){
   losujEnemy();
   //Ustaw stan wyboru klasy
   klasaWybrana=true;
+  lvlUpScreen=false;
   // Wyczysc cale body
   bodyTag.innerHTML = ''
   //Generuj profil gracza
@@ -159,10 +164,26 @@ function generujWalke(){
   window.buttonAtak = document.createElement('button');
   window.buttonSpell1 = document.createElement('button');
   window.buttonSpell2 = document.createElement('button');
+  window.divAtak = document.createElement('div');
+  window.divSpell1 = document.createElement('div');
+  window.divSpell2 = document.createElement('div');
+  window.cdDivSpell1 = document.createElement('div');
+  window.cdDivSpell2 = document.createElement('div');
+  window.placeHolderAtak = document.createElement('div');
   document.body.appendChild(divCzynnosc);
-  divCzynnosc.appendChild(buttonAtak);
-  divCzynnosc.appendChild(buttonSpell1);
-  divCzynnosc.appendChild(buttonSpell2);
+  divCzynnosc.appendChild(divAtak);
+  divCzynnosc.appendChild(divSpell1);
+  divCzynnosc.appendChild(divSpell2);
+  divAtak.appendChild(buttonAtak);
+  divAtak.appendChild(placeHolderAtak);
+  placeHolderAtak.innerText = 'Podstawowy';
+  divSpell1.appendChild(buttonSpell1);
+  divSpell1.appendChild(cdDivSpell1);
+  divSpell2.appendChild(buttonSpell2);
+  divSpell2.appendChild(cdDivSpell2);
+  divAtak.style.setProperty('display','inline-block');
+  divSpell1.style.setProperty('display','inline-block');
+  divSpell2.style.setProperty('display','inline-block');
   divCzynnosc.style.setProperty('display','inline-block');
   buttonAtak.innerHTML = '<img src="PNG/Attack.png"></img><br>' + 'Atak';
   buttonSpell1.innerHTML = '<img src="PNG/Skill1.png"></img><br>' + SelectedClass.spell1;
@@ -170,6 +191,7 @@ function generujWalke(){
   buttonAtak.setAttribute('onClick','walcz()');
   buttonSpell1.setAttribute('onClick','spell1()');
   buttonSpell2.setAttribute('onClick','spell2()');
+  updateCooldown();
   //Generuj profil przeciwnika
   window.divEnemy = document.createElement('div');
   document.body.appendChild(divEnemy);
@@ -192,7 +214,7 @@ function generujWalke(){
   //Historia walki
   window.divHitLog = document.createElement('div');
   bodyTag.appendChild(divHitLog);
-  divHitLog.style.setProperty('width','70%');
+  divHitLog.style.setProperty('width','30%');
   divHitLog.style.setProperty('margin-left','auto');
   divHitLog.style.setProperty('margin-right','auto');
   divHitLog.style.setProperty('background','#222222');
@@ -201,6 +223,9 @@ function generujWalke(){
 }
 function updateStatDisplay(){
   //Aktualizuje wyswietlone statystyki przy wyborze postaci
+  if(lvlUpScreen==true){
+    profilWolne.innerHTML = '<b>Wolne: </b>' + SelectedClass.wolne;
+  }
   if(klasaWybrana==false){
     profilImg.setAttribute('src',SelectedClass.img);
     profilClass.innerHTML = '<b>Klasa: </b>' + SelectedClass.class;
@@ -339,6 +364,7 @@ function losujEnemy(){
 }
 function lvlup(){
   //System zwiekszania statystyk przy wbiciu poziomu
+    lvlUpScreen = true;
     SelectedClass.xp = 0;
     SelectedClass.lvl++;
     SelectedClass.wolne = 3;
@@ -393,7 +419,7 @@ function lvlup(){
     window.profilWolne = document.createElement('div');
     divGracz.appendChild(profilLvl);
     divGracz.appendChild(profilWolne);
-    profilWolne.innerHTML = 'Wolne: ' + SelectedClass.wolne;
+    profilWolne.innerHTML = '<b>Wolne: </b>' + SelectedClass.wolne;
     updateStatDisplay();
 
     window.rozpocznijGreButton = document.createElement('button');
@@ -402,10 +428,16 @@ function lvlup(){
     rozpocznijGreButton.setAttribute('onclick','generujWalke()');
 }
 function walcz(){
-  hpCheck();
   turaGracza();
   turaPrzeciwnika();
   updateStatDisplay();
+  if(cdSpell1>0){
+    cdSpell1--;
+  }
+  if(cdSpell2>0){
+    cdSpell2--;
+  }
+  hpCheck();
 }
 function fireball(){
   hpCheck();
@@ -418,7 +450,7 @@ function fireball(){
   }
   else if(cdSpell1>0){
     turaGracza();
-    divHitLog.innerHTML += 'Pozostaly cooldown: ' + cdSpell1 + '<br><br>';
+
   }
   turaPrzeciwnika();
   updateStatDisplay();
@@ -435,7 +467,7 @@ function iceball(){
   }
   else if(cdSpell1>0){
     turaGracza();
-    divHitLog.innerHTML += 'Pozostaly cooldown: ' + cdSpell1 + '<br><br>';
+
   }
   updateStatDisplay();
 }
@@ -447,7 +479,7 @@ function doubleHit(){
   }
   else if(cdSpell1>0){
     turaGracza();
-    divHitLog.innerHTML += 'Pozostaly cooldown: ' + cdSpell1 + '<br><br>';
+
   }
   turaPrzeciwnika();
   updateStatDisplay();
@@ -462,7 +494,7 @@ function amok(){
   }
   else if(cdSpell1>0){
     turaGracza();
-    divHitLog.innerHTML += 'Pozostaly cooldown: ' + cdSpell1 + '<br><br>';
+
   }
   turaPrzeciwnika();
   updateStatDisplay();
@@ -477,7 +509,7 @@ function blok(){
   }
   else if(cdSpell2>0){
     turaGracza();
-    divHitLog.innerHTML += 'Pozostaly cooldown: ' + cdSpell2 + '<br><br>';
+
   }
   turaPrzeciwnika();
   updateStatDisplay();
@@ -490,7 +522,7 @@ function poisonarrow(){
   }
   else if(cdSpell1>0){
     turaGracza();
-    divHitLog.innerHTML += 'Pozostaly cooldown: ' + cdSpell1 + '<br><br>';
+
   }
   turaPrzeciwnika();
   updateStatDisplay();
@@ -503,7 +535,7 @@ function firearrow(){
   }
   else if(cdSpell2>0){
     turaGracza();
-    divHitLog.innerHTML += 'Pozostaly cooldown: ' + cdSpell2 + '<br><br>';
+
   }
   turaPrzeciwnika();
   updateStatDisplay();
@@ -517,7 +549,7 @@ function tripleHit(){
   }
   else if(cdSpell2>0){
     turaGracza();
-    divHitLog.innerHTML += 'Pozostaly cooldown: ' + cdSpell2 + '<br><br>';
+
   }
   turaPrzeciwnika();
   updateStatDisplay();
@@ -532,7 +564,6 @@ function storm(){
   }
   else if(cdSpell1>0){
     turaGracza();
-    divHitLog.innerHTML += 'Pozostaly cooldown: ' + cdSpell1 + '<br><br>';
   }
   turaPrzeciwnika();
   updateStatDisplay();
@@ -558,6 +589,13 @@ function spell1(){
     doubleHit();
   }
   updateStatDisplay();
+  updateCooldown();
+  if(cdSpell1>0){
+    cdSpell1--;
+  }
+  if(cdSpell2>0){
+    cdSpell2--;
+  }
 }
 function spell2(){
   hpCheck();
@@ -580,6 +618,17 @@ function spell2(){
     tripleHit();
   }
   updateStatDisplay();
+  updateCooldown();
+  if(cdSpell1>0){
+    cdSpell1--;
+  }
+  if(cdSpell2>0){
+    cdSpell2--;
+  }
+}
+function updateCooldown(){
+  cdDivSpell1.innerText = 'CD: ' + cdSpell1;
+  cdDivSpell2.innerText = 'CD: ' + cdSpell2;
 }
 function hpCheck(){
   //Sprawdzamy HP gracza
@@ -600,9 +649,9 @@ function hpCheck(){
       divCzynnosc.appendChild(sklepButton);
       sklepButton.innerHTML = '<img src="PNG/Shop.png" width="50" height="50"></img>';
       sklepButton.setAttribute('onclick','sklep()');
-      buttonAtak.setAttribute('hidden','hidden');
-      buttonSpell1.setAttribute('hidden','hidden');
-      buttonSpell2.setAttribute('hidden','hidden');
+      divAtak.innerHTML = '';
+      divSpell1.innerHTML = '';
+      divSpell2.innerHTML = '';
       window.rozpocznijGreButton = document.createElement('button');
       divCzynnosc.appendChild(rozpocznijGreButton);
       rozpocznijGreButton.innerHTML = '<img src="PNG/Fist.png" width="50" height="50"></img>';
@@ -611,12 +660,7 @@ function hpCheck(){
   }
 }
 function turaGracza(){
-  if(cdSpell1>0){
-    cdSpell1--;
-  }
-  if(cdSpell2>0){
-    cdSpell2--;
-  }
+
   if(cdDot1>0){
     window.nextHit = Math.floor(SelectedClass.int*((Math.random()*150-50)+50)/100)
     Enemy.hp -= (nextHit).toFixed(0);
@@ -660,6 +704,7 @@ function turaGracza(){
   Enemy.hp -= (nextHit*obronaEnemy).toFixed(0);
   Enemy.hp = Math.floor(Enemy.hp);
   divHitLog.innerHTML += 'Zadales przeciwnikowi ' + (nextHit*obronaEnemy).toFixed(0) + ' obrazen' + '<br><br>';
+  updateCooldown();
 }
 function turaPrzeciwnika(){
   window.critChance = Enemy.szczescie*5;
@@ -678,63 +723,135 @@ function silaadd(){
   if(SelectedClass.sila<100&&SelectedClass.wolne>0){
     SelectedClass.wolne -= 1;
     SelectedClass.sila += 1;
-    profilSila.innerHTML = 'Sila: ' + SelectedClass.sila;
-    profilWolne.innerHTML = 'Wolne: ' + SelectedClass.wolne;
+    updateStatDisplay();
   }
 }
 function silamin(){
   if(SelectedClass.sila>0){
-    SelectedClass.wolne += 1;
-    SelectedClass.sila -= 1;
-    profilSila.innerHTML = 'Sila: ' + SelectedClass.sila;
-    profilWolne.innerHTML = 'Wolne: ' + SelectedClass.wolne;
+    if(SelectedClass.class == "Wojownik" && SelectedClass.sila > 8){
+      SelectedClass.wolne += 1;
+      SelectedClass.sila -= 1;
+      updateStatDisplay();
+    }
+    else if(SelectedClass.class == "Lucznik" && SelectedClass.sila > 9){
+      SelectedClass.wolne += 1;
+      SelectedClass.sila -= 1;
+      updateStatDisplay();
+    }
+    else if(SelectedClass.class == "Tancerz Ostrzy" && SelectedClass.sila > 10){
+      SelectedClass.wolne += 1;
+      SelectedClass.sila -= 1;
+      updateStatDisplay();
+    }
+    else if(SelectedClass.class == "Mag Ognia" || SelectedClass.class == "Mag Lodu" || SelectedClass.class == "Mag Blyskawic")
+    {
+      if(SelectedClass.sila > 0){
+        SelectedClass.wolne += 1;
+        SelectedClass.sila -= 1;
+        updateStatDisplay();
+      }
+    }
   }
 }
 function obronaadd(){
   if(SelectedClass.obrona<10&&SelectedClass.wolne>0){
     SelectedClass.wolne -= 1;
     SelectedClass.obrona += 1;
-    profilObrona.innerHTML = 'Obrona: ' + SelectedClass.obrona;
-    profilWolne.innerHTML = 'Wolne: ' + SelectedClass.wolne;
+    updateStatDisplay();
   }
 }
 function obronamin(){
   if(SelectedClass.obrona>0){
-    SelectedClass.wolne += 1;
-    SelectedClass.obrona -= 1;
-    profilObrona.innerHTML = 'Obrona: ' + SelectedClass.obrona;
-    profilWolne.innerHTML = 'Wolne: ' + SelectedClass.wolne;
+    if(SelectedClass.class == "Wojownik" && SelectedClass.obrona > 6){
+      SelectedClass.wolne += 1;
+      SelectedClass.obrona -= 1;
+      updateStatDisplay();
+    }
+    else if(SelectedClass.class == "Lucznik" && SelectedClass.obrona > 3){
+      SelectedClass.wolne += 1;
+      SelectedClass.obrona -= 1;
+      updateStatDisplay();
+    }
+    else if(SelectedClass.class == "Tancerz Ostrzy" && SelectedClass.obrona > 2){
+      SelectedClass.wolne += 1;
+      SelectedClass.obrona -= 1;
+      updateStatDisplay();
+    }
+    else if(SelectedClass.class == "Mag Ognia" || SelectedClass.class == "Mag Lodu" || SelectedClass.class == "Mag Blyskawic")
+    {
+      if(SelectedClass.obrona > 2){
+        SelectedClass.wolne += 1;
+        SelectedClass.obrona -= 1;
+        updateStatDisplay();
+      }
+    }
   }
 }
 function intadd(){
   if(SelectedClass.int<100&&SelectedClass.wolne>0){
     SelectedClass.wolne -= 1;
     SelectedClass.int += 1;
-    profilInt.innerHTML = 'Int: ' + SelectedClass.int;
-    profilWolne.innerHTML = 'Wolne: ' + SelectedClass.wolne;
+    updateStatDisplay();
   }
 }
 function intmin(){
   if(SelectedClass.int>0){
-    SelectedClass.wolne += 1;
-    SelectedClass.int -= 1;
-    profilInt.innerHTML = 'Int: ' + SelectedClass.int;
-    profilWolne.innerHTML = 'Wolne: ' + SelectedClass.wolne;
+    if(SelectedClass.class == "Wojownik" && SelectedClass.int > 0){
+      SelectedClass.wolne += 1;
+      SelectedClass.int -= 1;
+      updateStatDisplay();
+    }
+    else if(SelectedClass.class == "Lucznik" && SelectedClass.int > 2){
+      SelectedClass.wolne += 1;
+      SelectedClass.int -= 1;
+      updateStatDisplay();
+    }
+    else if(SelectedClass.class == "Tancerz Ostrzy" && SelectedClass.int > 2){
+      SelectedClass.wolne += 1;
+      SelectedClass.int -= 1;
+      updateStatDisplay();
+    }
+    else if(SelectedClass.class == "Mag Ognia" || SelectedClass.class == "Mag Lodu" || SelectedClass.class == "Mag Blyskawic")
+    {
+      if(SelectedClass.int > 6){
+        SelectedClass.wolne += 1;
+        SelectedClass.int -= 1;
+        updateStatDisplay();
+      }
+    }
   }
 }
 function szczescieadd(){
   if(SelectedClass.szczescie<20&&SelectedClass.wolne>0){
     SelectedClass.wolne -= 1;
     SelectedClass.szczescie += 1;
-    profilSzczescie.innerHTML = 'Szczescie: ' + SelectedClass.szczescie;
-    profilWolne.innerHTML = 'Wolne: ' + SelectedClass.wolne;
+    updateStatDisplay();
   }
 }
 function szczesciemin(){
   if(SelectedClass.szczescie>0){
-    SelectedClass.wolne += 1;
-    SelectedClass.szczescie -= 1;
-    profilSzczescie.innerHTML = 'Szczescie: ' + SelectedClass.szczescie;
-    profilWolne.innerHTML = 'Wolne: ' + SelectedClass.wolne;
+    if(SelectedClass.class == "Wojownik" && SelectedClass.szczescie > 2){
+      SelectedClass.wolne += 1;
+      SelectedClass.szczescie -= 1;
+      updateStatDisplay();
+    }
+    else if(SelectedClass.class == "Lucznik" && SelectedClass.szczescie > 5){
+      SelectedClass.wolne += 1;
+      SelectedClass.szczescie -= 1;
+      updateStatDisplay();
+    }
+    else if(SelectedClass.class == "Tancerz Ostrzy" && SelectedClass.szczescie > 6){
+      SelectedClass.wolne += 1;
+      SelectedClass.szczescie -= 1;
+      updateStatDisplay();
+    }
+    else if(SelectedClass.class == "Mag Ognia" || SelectedClass.class == "Mag Lodu" || SelectedClass.class == "Mag Blyskawic")
+    {
+      if(SelectedClass.int > 2){
+        SelectedClass.wolne += 1;
+        SelectedClass.szczescie -= 1;
+        updateStatDisplay();
+      }
+    }
   }
 }

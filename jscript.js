@@ -19,9 +19,9 @@ function definicjaKlas(){
   //KlasyGracza
   window.None = {class: 'Brak',defaulthp: 100,hp: 100,sila: 0,obrona: 0,int: 0,szczescie: 0,img: 'PNG/Error.PNG',xp: 0,lvl: 1,wolne: 24, spell1: 'BRAK', spell2: 'BRAK', gold: 0}
   window.Warrior = {class: 'Wojownik',defaulthp: 100,hp: 100,sila: 8,obrona: 6,int: 0,szczescie: 2,img: 'PNG/Warrior.PNG',xp: 0,lvl: 1,wolne: 8, spell1: 'Amok', spell2: 'Blok', gold: 0}
-  window.MageIce = {class: 'Mag Lodu',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 8,szczescie: 2,img: 'PNG/MageIce.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Iceball', spell2: 'DODAJTO', gold: 0}
-  window.MageFire = {class: 'Mag Ognia',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 9,szczescie: 2,img: 'PNG/MageFire.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Fireball', spell2: 'DODAJTO', gold: 0}
-  window.MageLightning = {class: 'Mag Blyskawic',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 6,szczescie: 2,img: 'PNG/MageLightning.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Storm', spell2: 'DODAJTO', gold: 0}
+  window.MageIce = {class: 'Mag Lodu',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 8,szczescie: 2,img: 'PNG/MageIce.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Iceball', spell2: 'Tarcza lodu', gold: 0}
+  window.MageFire = {class: 'Mag Ognia',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 9,szczescie: 2,img: 'PNG/MageFire.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Fireball', spell2: 'Deszcz ognia', gold: 0}
+  window.MageLightning = {class: 'Mag Blyskawic',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 6,szczescie: 2,img: 'PNG/MageLightning.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Storm', spell2: 'Uderzenie pioruna', gold: 0}
   window.Archer = {class: 'Lucznik',defaulthp: 70,hp: 70,sila: 9,obrona: 3,int: 2,szczescie: 5,img: 'PNG/Archer.PNG',xp: 0,lvl: 1,wolne: 4, spell1: 'Poison Arrow', spell2: 'Fire Arrow', gold: 0}
   window.BladeDancer = {class: 'Tancerz Ostrzy',defaulthp: 80,hp: 80,sila: 10,obrona: 2,int: 2,szczescie: 6,img: 'PNG/BladeDancer.PNG',xp: 0,lvl: 1,wolne: 3, spell1: 'Double Hit', spell2: 'Triple Hit', gold: 0}
 }
@@ -214,6 +214,7 @@ function generujWalke(){
   //Historia walki
   window.divHitLog = document.createElement('div');
   bodyTag.appendChild(divHitLog);
+  divHitLog.setAttribute('id','divHitLog');
   divHitLog.style.setProperty('width','30%');
   divHitLog.style.setProperty('margin-left','auto');
   divHitLog.style.setProperty('margin-right','auto');
@@ -347,11 +348,11 @@ function losujEnemy(){
   //Definicja przeciwnika
     window.Enemy = {
       class: 'DEFAULT',
-      hp: (Math.floor(Math.random() * (80 - 40)) + 40),
-      sila: (Math.floor(Math.random() * (8 - 2)) + 2),
-      obrona: (Math.floor(Math.random() * (8 - 2)) + 2),
-      int: (Math.floor(Math.random() * (8 - 2)) + 2),
-      szczescie: (Math.floor(Math.random() * (8 - 2)) + 2),
+      hp: (Math.floor(Math.random() * (200 - 160)) + 160),
+      sila: (Math.floor(Math.random() * (5 - 2)) + 2),
+      obrona: (Math.floor(Math.random() * (5 - 2)) + 2),
+      int: (Math.floor(Math.random() * (5 - 2)) + 2),
+      szczescie: (Math.floor(Math.random() * (5 - 2)) + 2),
       img: 'PNG/Error.png'
     }
     //Losowanie i dobor odpowiedniego png
@@ -455,6 +456,22 @@ function fireball(){
   turaPrzeciwnika();
   updateStatDisplay();
 }
+function deszczognia(){
+  hpCheck();
+  if(cdSpell2==0){
+    window.nextHit = Math.floor(SelectedClass.int*((Math.random()*350-300)+300)/100);
+    Enemy.hp -= (nextHit).toFixed(0);
+    Enemy.hp = Math.floor(Enemy.hp);
+    divHitLog.innerHTML += 'Zadales przeciwnikowi ' + (nextHit).toFixed(0) + ' obrazen deszczem ognia' + '<br><br>';
+    window.cdSpell2 = 10;
+  }
+  else if(cdSpell1>0){
+    turaGracza();
+
+  }
+  turaPrzeciwnika();
+  updateStatDisplay();
+}
 function iceball(){
   hpCheck();
   if(cdSpell1==0){
@@ -469,6 +486,20 @@ function iceball(){
     turaGracza();
 
   }
+  updateStatDisplay();
+}
+function tarczalodu(){
+  if(cdSpell2==0){
+    window.cdBuff2 = 5;
+    window.cdSpell2 = 7;
+    SelectedClass.obrona += 8;
+    divHitLog.innerHTML += 'Uzyles umiejetnosci Tarcza lodu<br>';
+  }
+  else if(cdSpell2>0){
+    turaGracza();
+
+  }
+  turaPrzeciwnika();
   updateStatDisplay();
 }
 function doubleHit(){
@@ -568,6 +599,20 @@ function storm(){
   turaPrzeciwnika();
   updateStatDisplay();
 }
+function piorun(){
+  if(cdSpell2==0){
+    window.nextHit = Math.floor(SelectedClass.int*((Math.random()*240-150)+150)/100);
+    Enemy.hp -= (nextHit).toFixed(0);
+    Enemy.hp = Math.floor(Enemy.hp);
+    divHitLog.innerHTML += 'Zadales przeciwnikowi ' + (nextHit).toFixed(0) + ' obrazen piorunem' + '<br><br>';
+    window.cdSpell2 = 5;
+  }
+  else if(cdSpell1>0){
+    turaGracza();
+  }
+  turaPrzeciwnika();
+  updateStatDisplay();
+}
 function spell1(){
   hpCheck();
   if(SelectedClass.class=="Wojownik"){
@@ -603,13 +648,13 @@ function spell2(){
     blok();
   }
   else if(SelectedClass.class=="Mag Ognia"){
-
+    deszczognia();
   }
   else if(SelectedClass.class=="Mag Lodu"){
-
+    tarczalodu();
   }
   else if(SelectedClass.class=='Mag Blyskawic'){
-
+    piorun();
   }
   else if(SelectedClass.class=="Lucznik"){
     firearrow();
@@ -639,7 +684,9 @@ function hpCheck(){
   //Sprawdzamy HP przeciwnika
   if(Enemy.hp<=0){
       SelectedClass.xp += 0.25;
-      SelectedClass.gold += Math.floor((Math.random()*30-10)+10);
+      SelectedClass.gold += Math.floor((Math.random()*50-30)+30);
+      cdDot1 = 0;
+      cdDot2 = 0;
 
     if(SelectedClass.xp>((SelectedClass.lvl*SelectedClass.lvl)/2)){
       lvlup();
@@ -662,14 +709,14 @@ function hpCheck(){
 function turaGracza(){
 
   if(cdDot1>0){
-    window.nextHit = Math.floor(SelectedClass.int*((Math.random()*150-50)+50)/100)
+    window.nextHit = Math.floor(SelectedClass.int*((Math.random()*150-50)+50)/100) + Math.floor(SelectedClass.sila*((Math.random()*90-80)+80)/100)
     Enemy.hp -= (nextHit).toFixed(0);
     Enemy.hp = Math.floor(Enemy.hp);
     divHitLog.innerHTML += 'Zadales przeciwnikowi ' + (nextHit).toFixed(0) + ' z obrazen w czasie' + '<br><br>';
     cdDot1--;
   }
   if(cdDot2>0){
-    window.nextHit = Math.floor(SelectedClass.int*((Math.random()*150-50)+50)/100)
+    window.nextHit = Math.floor(SelectedClass.int*((Math.random()*150-50)+50)/100) + Math.floor(SelectedClass.sila*((Math.random()*90-80)+80)/100)
     Enemy.hp -= (nextHit).toFixed(0);
     Enemy.hp = Math.floor(Enemy.hp);
     divHitLog.innerHTML += 'Zadales przeciwnikowi ' + (nextHit).toFixed(0) + ' z obrazen w czasie' + '<br><br>';

@@ -1,0 +1,27 @@
+button{
+  padding: 0px;
+  margin: 2px;
+  background: none;
+  border: none;
+  color: #fc0;
+}
+*{
+font-family: "Comic Sans MS", cursive, sans-serif;
+font-size: 17px;
+letter-spacing: -0.8px;
+word-spacing: -0.8px;
+color: #FFCC00;
+font-weight: 700;
+text-decoration: none solid rgb(68, 68, 68);
+font-style: normal;
+}
+#divHitLog{
+  line-height: .6;
+  font-family: "Comic Sans MS", cursive, sans-serif;
+  font-size: 13px;
+  letter-spacing: -0.8px;
+  word-spacing: -0.8px;
+  color: #FFCC00;
+  text-decoration: none solid rgb(68, 68, 68);
+  font-style: normal;
+}

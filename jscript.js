@@ -18,12 +18,12 @@ function definicjeGlobalne(){
 function definicjaKlas(){
   //KlasyGracza
   window.None = {class: 'Brak',defaulthp: 100,hp: 100,sila: 0,obrona: 0,int: 0,szczescie: 0,img: 'PNG/Error.PNG',xp: 0,lvl: 1,wolne: 24, spell1: 'BRAK', spell2: 'BRAK', gold: 0}
-  window.Warrior = {class: 'Wojownik',defaulthp: 100,hp: 100,sila: 8,obrona: 6,int: 0,szczescie: 2,img: 'PNG/Warrior.PNG',xp: 0,lvl: 1,wolne: 8, spell1: 'Amok', spell2: 'Blok', gold: 0}
-  window.MageIce = {class: 'Mag Lodu',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 8,szczescie: 2,img: 'PNG/MageIce.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Iceball', spell2: 'Tarcza lodu', gold: 0}
-  window.MageFire = {class: 'Mag Ognia',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 9,szczescie: 2,img: 'PNG/MageFire.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Fireball', spell2: 'Deszcz ognia', gold: 0}
-  window.MageLightning = {class: 'Mag Blyskawic',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 6,szczescie: 2,img: 'PNG/MageLightning.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Storm', spell2: 'Uderzenie pioruna', gold: 0}
-  window.Archer = {class: 'Lucznik',defaulthp: 70,hp: 70,sila: 9,obrona: 3,int: 2,szczescie: 5,img: 'PNG/Archer.PNG',xp: 0,lvl: 1,wolne: 4, spell1: 'Poison Arrow', spell2: 'Fire Arrow', gold: 0}
-  window.BladeDancer = {class: 'Tancerz Ostrzy',defaulthp: 80,hp: 80,sila: 10,obrona: 2,int: 2,szczescie: 6,img: 'PNG/BladeDancer.PNG',xp: 0,lvl: 1,wolne: 3, spell1: 'Double Hit', spell2: 'Triple Hit', gold: 0}
+  window.Warrior = {class: 'Wojownik',defaulthp: 100,hp: 100,sila: 8,obrona: 6,int: 0,szczescie: 2,img: 'PNG/Warrior.PNG',xp: 0,lvl: 1,wolne: 8, spell1: 'Amok', spell2: 'Blok', spell1img: 'PNG/amok.png', spell2img: 'PNG/shield.png',gold: 0}
+  window.MageIce = {class: 'Mag Lodu',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 8,szczescie: 2,img: 'PNG/MageIce.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Iceball', spell2: 'Tarcza lodu', spell1img: 'PNG/iceball.png', spell2img: 'PNG/iceshield.png', gold: 0}
+  window.MageFire = {class: 'Mag Ognia',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 9,szczescie: 2,img: 'PNG/MageFire.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Fireball', spell2: 'Deszcz ognia', spell1img: 'PNG/fireball.png', spell2img: 'PNG/meteor.png',gold: 0}
+  window.MageLightning = {class: 'Mag Blyskawic',defaulthp: 60,hp: 60,sila: 1,obrona: 2,int: 6,szczescie: 2,img: 'PNG/MageLightning.PNG',xp: 0,lvl: 1,wolne: 5, spell1: 'Storm', spell2: 'Uderzenie pioruna', spell1img: 'PNG/storm.png', spell2img: 'PNG/lightning.png',gold: 0}
+  window.Archer = {class: 'Lucznik',defaulthp: 70,hp: 70,sila: 9,obrona: 3,int: 2,szczescie: 5,img: 'PNG/Archer.PNG',xp: 0,lvl: 1,wolne: 4, spell1: 'Poison Arrow', spell2: 'Fire Arrow', spell1img: 'PNG/poisonarrow.png', spell2img: 'PNG/firearrow.png',gold: 0}
+  window.BladeDancer = {class: 'Tancerz Ostrzy',defaulthp: 80,hp: 80,sila: 10,obrona: 2,int: 2,szczescie: 6,img: 'PNG/BladeDancer.PNG',xp: 0,lvl: 1,wolne: 3, spell1: 'Double Hit', spell2: 'Triple Hit', spell1img: 'PNG/doublehit.png', spell2img: 'PNG/triplehit.png',gold: 0}
 }
 function start(){
   definicjaKlas();
@@ -185,9 +185,19 @@ function generujWalke(){
   divSpell1.style.setProperty('display','inline-block');
   divSpell2.style.setProperty('display','inline-block');
   divCzynnosc.style.setProperty('display','inline-block');
-  buttonAtak.innerHTML = '<img src="PNG/Attack.png"></img><br>' + 'Atak';
-  buttonSpell1.innerHTML = '<img src="PNG/Skill1.png"></img><br>' + SelectedClass.spell1;
-  buttonSpell2.innerHTML = '<img src="PNG/Skill2.png"></img><br>' + SelectedClass.spell2;
+  buttonAtak.innerHTML = '<img src="PNG/Atak.png" width="50px" height="50px"></img><br>' + 'Atak';
+  buttonSpell1img = document.createElement('img');
+  buttonSpell1.appendChild(buttonSpell1img);
+  buttonSpell1img.setAttribute('src',SelectedClass.spell1img);
+  buttonSpell1img.style.setProperty('width','50px');
+  buttonSpell1img.style.setProperty('height','50px');
+  buttonSpell1.innerHTML += '<br>' + SelectedClass.spell1;
+  buttonSpell2img = document.createElement('img');
+  buttonSpell2.appendChild(buttonSpell2img);
+  buttonSpell2img.setAttribute('src',SelectedClass.spell2img);
+  buttonSpell2img.style.setProperty('width','50px');
+  buttonSpell2img.style.setProperty('height','50px');
+  buttonSpell2.innerHTML += '<br>' + SelectedClass.spell2;
   buttonAtak.setAttribute('onClick','walcz()');
   buttonSpell1.setAttribute('onClick','spell1()');
   buttonSpell2.setAttribute('onClick','spell2()');
